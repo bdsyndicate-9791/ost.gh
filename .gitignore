@@ -1,0 +1,54 @@
+# Binarios compilados
+ost
+*.o
+*.out
+
+# Logs
+logs/
+test_logs/
+
+# Archivos temporales
+*.tmp
+*.log
+*.swp
+*~
+
+# Archivos de compilación
+*.a
+*.so
+*.dylib
+*.dll
+
+# Archivos de desarrollo
+.DS_Store
+Thumbs.db
+
+# Archivos de ejemplo
+test_urls.txt
+localhost_urls.txt
+
+# Archivos de configuración temporales
+*.config
+config/
+
+# Archivos de respaldo
+*~
+*.bak
+*.backup
+
+# IDE y editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+
+# Sistemas de compilación
+build/
+dist/
+*.pyc
+__pycache__/
+*.class
