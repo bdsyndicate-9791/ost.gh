@@ -10,6 +10,12 @@ La herramienta de pruebas de estrés para aplicaciones OPHELIA es una utilidad d
   - `incomplete`: Conexiones TCP incompletas que se establecen pero no se completan
   - `malformed`: Cabeceras HTTP deliberadamente malformadas y potencialmente maliciosas
   - `invalid`: Solicitudes HTTP completamente inválidas
+  - `xss`: Pruebas de Cross-Site Scripting con payloads de inyección de JavaScript
+  - `buffer`: Pruebas de desbordamiento de búfer con entradas extremadamente largas
+  - `dos`: Pruebas de denegación de servicio con conexiones rápidas y múltiples solicitudes
+  - `command`: Pruebas de inyección de comandos con payloads de inyección de comandos del sistema
+  - `upload-standard`: Pruebas de subida de archivos estándar con contenido legítimo
+  - `upload-malicious`: Pruebas de subida de archivos maliciosos con diferentes tipos de contenido peligroso
 - Registro detallado de eventos en múltiples archivos de log
 - Soporte para pruebas de duración fija o número de solicitudes por hilo
 - Interfaz de usuario tipo Borland con mensaje de bienvenida
@@ -50,7 +56,7 @@ make
 - `-r, --requests NUM`: Número de solicitudes por hilo (por defecto: 100)
 - `-d, --duration SEC`: Duración máxima de la prueba en segundos (por defecto: 120)
 - `-l, --log-dir DIR`: Directorio para guardar archivos de logs (por defecto: ./logs)
-- `-T, --test-type TYPE`: Tipo de prueba a realizar (standard|incomplete|malformed|invalid; por defecto: standard)
+- `-T, --test-type TYPE`: Tipo de prueba a realizar (standard|incomplete|malformed|invalid|xss|buffer|dos|command|upload-standard|upload-malicious; por defecto: standard)
 - `-h, --help`: Mostrar el mensaje de ayuda
 
 ### Ejemplos
@@ -67,6 +73,12 @@ make
 
 # Prueba de solicitudes inválidas
 ./ost --urls urls.txt --test-type invalid --threads 5
+
+# Prueba de subida de archivos estándar
+./ost --urls urls.txt --test-type upload-standard --threads 5
+
+# Prueba de subida de archivos maliciosos
+./ost --urls urls.txt --test-type upload-malicious --threads 3
 ```
 
 ## Tipos de Pruebas
@@ -97,6 +109,30 @@ Envía solicitudes HTTP completamente inválidas como:
 - Conflictos en Content-Length
 - Duplicados en cabeceras prohibidos
 - Cabeceras con caracteres o valores inapropiados
+
+### Cross-Site Scripting (`xss`)
+
+Envía payloads específicos de inyección de JavaScript y XSS a través de diferentes parámetros y cabeceras HTTP para probar la susceptibilidad a ataques XSS en la aplicación.
+
+### Buffer Overflow (`buffer`)
+
+Envía entradas extremadamente largas y potencialmente maliciosas para probar la resistencia de la aplicación a ataques de desbordamiento de búfer, incluyendo cabeceras HTTP excesivamente largas y datos de gran tamaño en solicitudes.
+
+### Denegación de Servicio (`dos`)
+
+Realiza conexiones rápidas y múltiples solicitudes para intentar agotar los recursos del servidor y causar una denegación de servicio, incluyendo conexiones rápidas sin esperar respuesta completa.
+
+### Command Injection (`command`)
+
+Envía payloads específicos de inyección de comandos del sistema a través de diferentes parámetros y cabeceras HTTP para probar la susceptibilidad a ejecución de comandos arbitrarios.
+
+### Upload Standard (`upload-standard`)
+
+Realiza pruebas de subida de archivos estándar con contenido legítimo para probar la funcionalidad normal de subida de archivos, verificando que el sistema maneje correctamente archivos válidos.
+
+### Upload Malicious (`upload-malicious`)
+
+Realiza pruebas de subida de archivos maliciosos con diferentes tipos de contenido peligroso, incluyendo archivos PHP con comandos ejecutables, código JavaScript/XSS, códigos SQL Injection, archivos binarios sospechosos e intentos de buffer overflow. También incluye técnicas de evasión como extensiones dobles (por ejemplo, `image.jpg.php`) y diferentes tipos MIME para intentar eludir filtros de seguridad.
 
 ## Archivos de Log
 
